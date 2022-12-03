@@ -1,3 +1,14 @@
+function create_centered_text(txt, x, y, size) {
+    add([
+        pos(x, y),
+        origin("center"),
+        text(txt, {
+            size: size,
+            font: "sinko"
+        })
+    ]);
+}
+
 function game(data) {
     add([ sprite("bg") ]);
     
@@ -29,14 +40,7 @@ function game(data) {
                 lives.text = "Vies: " + lives.value;
                 
                 if (lives.value == 0) {
-                    lives.value = 3;
-                    lives.text = "Lives: 3";
-                    
-                    score.value = 0;
-                    score.text = "Score: 0";
-                    
-                    buttons = default_buttons;
-                    go("lose")
+                    go("lose", score.value)
                     return;
                 }
             }
@@ -52,7 +56,7 @@ function game(data) {
     }
 }
 
-function lost() {
+function lost(score) {
     add([ sprite("bg") ]);
         
     add([
@@ -63,15 +67,28 @@ function lost() {
             font: "sinko"
         })
     ]);
+
+    const subtext_size = 20;
+
+    // add([
+    //     pos(width() / 2.0, height() * 3.0 / 4.0 - subtext_size * 2.0),
+    //     origin("center"),
+    //     text(`Votre score: ${score}`, {
+    //         size: subtext_size,
+    //         font: "sinko"
+    //     })
+    // ]);
+    create_centered_text(`Votre score: ${score}`, width() / 2.0, height() * 3.0 / 4.0 - subtext_size * 2.0, subtext_size);
+    create_centered_text("Cliquez pour recommencer", width() / 2.0, height() * 3.0 / 4.0, subtext_size);
                     
-    add([
-        pos(width() / 2.0, height() * 3.0 / 4.0),
-        origin("center"),
-        text("Cliquez pour recommencer", {
-            size: 20,
-            font: "sinko"
-        })
-    ]);
+    // add([
+    //     pos(width() / 2.0, height() * 3.0 / 4.0),
+    //     origin("center"),
+    //     text("Cliquez pour recommencer", {
+    //         size: subtext_size,
+    //         font: "sinko"
+    //     })
+    // ]);
         
     onClick(() => {
         go("game");

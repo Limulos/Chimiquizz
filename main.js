@@ -13,7 +13,7 @@ function main() {
     }
     
     scene("game", () => { game(data); });
-    scene("lose", lost);
+    scene("lose", (score) => { lost(score); });
     
     go("game");
 }
